@@ -1,0 +1,38 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+/dist
+/dll
+
+# dotenv
+.env
+.env.*.local
+
+# misc
+.DS_Store
+.idea
+.tern-project
+.vscode
+.tern-port
+.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.eslintcache
+records.json
+stats.json
+/server/targets.local.js
+/server/COOKIE
+/server/.env
+/scripts/*.sed
+
+public/sdk.*
+public/assets
