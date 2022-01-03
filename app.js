@@ -1,20 +1,20 @@
-const Koa = require("koa")
-const Router = require("koa-router")
+const Koa = require('koa');
+const Router = require('koa-router')
+const mongoose = require('mongoose')
+const keys = require('./config/keys')
+const mongooseURI = keys.mongooseURI
 
-const router = new Router();
-const app = new Koa()
-
-router.get("/",async ctx=>{
-    ctx.body= {
-        msg: "hello koa"
-    }
+mongoose.connect(mongooseURI, () => {
+    console.log('mongoose connected...')
 })
-app
-    .use(router.routes())
-    .use(router.allowedMethods())
 
-const port= process.env.PORT || 3001
+const router = new Router()
+const app = new Koa();
 
-app.listen(port,()=>{
+app.use(router.routes)
+
+const port = process.env.PORT || 3000
+
+app.listen(port, () => {
     console.log(`server is running at ${port}`)
 })
