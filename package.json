@@ -1,5 +1,5 @@
 {
-  "name": "koa-notes",
+  "name": "koa_notes",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,7 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "koa": "^2.13.4",
-    "koa-router": "^10.1.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.1.1"
+  },
+  "devDependencies": {
+    "mongoose": "^6.1.4",
     "nodemon": "^2.0.15"
   }
 }
