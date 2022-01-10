@@ -2,7 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router')
 const mongoose = require('mongoose')
 const keys = require('./config/keys')
-const users = require('./routes/api/users')
+const users = require('./routes/user')
 const bodyParser = require('koa-bodyparser')
 
 const mongooseURI = keys.mongooseURI

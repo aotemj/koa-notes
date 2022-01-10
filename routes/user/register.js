@@ -1,21 +1,12 @@
 const Router = require('koa-router')
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 
-const UserModel = require('../../models/User')
+const UserModel = require("../../models/User");
+
 const router = new Router();
-
 const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
 
 const salt = bcrypt.genSaltSync(saltRounds);
-
-router.get('/test', async ctx => {
-    ctx.status = 200;
-    ctx.body = {
-        msg: 'users works'
-    }
-})
-
 router.post('/register', async ctx => {
     const {email, name, password, avatar} = ctx.request.body
     if (email) {
@@ -44,4 +35,4 @@ router.post('/register', async ctx => {
     }
 })
 
-module.exports = router.routes();
+module.exports = router.routes()
