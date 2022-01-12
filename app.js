@@ -8,7 +8,7 @@ const bodyParser = require('koa-bodyparser')
 const mongooseURI = keys.mongooseURI
 
 mongoose.connect(mongooseURI).then(() => {
-    console.log('mongoose connected...')
+    console.log('\n ** mongoose connected ** \n')
 }, (err) => {
     console.log('mongoose connect failed', err)
 })
