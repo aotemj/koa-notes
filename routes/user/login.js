@@ -13,7 +13,7 @@ router.post('/login', async ctx => {
     if (res) {
         const passwordFromDB = res.password;
         const compareRes = bcrypt.compareSync(password, passwordFromDB)
-        const token = jwt.sign({email, password}, 'test')
+        const token = `Bearer ${jwt.sign({email, password}, 'test')}`
         console.log(compareRes);
         if (compareRes) {
             ctx.status = 200
