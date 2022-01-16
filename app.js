@@ -1,19 +1,21 @@
 const Koa = require('koa');
 const Router = require('koa-router')
 const mongoose = require('mongoose')
-const jwt = require('koa-jwt');
+const koaJwt = require('koa-jwt');
+const jwt = require('jsonwebtoken')
 const keys = require('./config/keys')
-const users = require('./routes/user')
+const users = require('./routes/user.routes')
 const bodyParser = require('koa-bodyparser')
+const unprotectedRoutes = require("./config/unprotectedRoutes");
 
-const mongooseURI = keys.mongooseURI
+// const Auth = require('./middleware/Auth')
 
-const PUBLIC_PATH_REGEXP = /^\/public/
+const router = new Router()
+const app = new Koa();
 
-const UNLESS_ROUTERS = [
-    'login',
-    'register'
-]
+const mongooseURI = keys.mongooseURI;
+
+// app.use(Auth)
 
 mongoose.connect(mongooseURI).then(() => {
     console.log('\n ** mongoose connected ** \n')
@@ -21,29 +23,22 @@ mongoose.connect(mongooseURI).then(() => {
     console.log('mongoose connect failed', err)
 })
 
-
-const router = new Router()
-const app = new Koa();
-
-router.use('/api/users', users)
 app.use(bodyParser())
+
+// app.use(function (ctx, next) {
+//     return next().catch(error => {
+//         if (401 === error.status) {
+//             ctx.body = 'Protected resource, use Authorization header to get access\n';
+//         } else {
+//             throw error
+//         }
+//     })
+// })
+
+// app.use(koaJwt({secret: keys.secret}).unless({path: unprotectedRoutes}))
+
+router.use(users)
 
 app.use(router.routes())
 
-app.use(jwt({secret: keys.secret}).unless({path: [PUBLIC_PATH_REGEXP, UNLESS_ROUTERS.map(item => new RegExp(item))]}))
-
-app.use(function (ctx, next) {
-    return next().catch(error => {
-        if (401 === error.status) {
-            ctx.body = 'Protected resource, use Authorization header to get access\n';
-        } else {
-            throw error
-        }
-    })
-})
-
-const port = process.env.PORT || 3000
-
-app.listen(port, () => {
-    console.log(`server is running at ${port}`)
-})
+module.exports = app

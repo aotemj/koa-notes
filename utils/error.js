@@ -1,0 +1,5 @@
+const getError = () => {
+    return {
+        msg: ''
+    }
+}
