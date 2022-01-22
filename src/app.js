@@ -13,16 +13,7 @@ const unprotectedRoutes = require("./config/unprotectedRoutes");
 const router = new Router()
 const app = new Koa();
 
-const mongooseURI = keys.mongooseURI;
-
 // app.use(Auth)
-
-mongoose.connect(mongooseURI).then(() => {
-    console.log('\n ** mongoose connected ** \n')
-}, (err) => {
-    console.log('mongoose connect failed', err)
-})
-
 app.use(bodyParser())
 
 // app.use(function (ctx, next) {

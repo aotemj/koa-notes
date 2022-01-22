@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon main.js"
+    "start": "nodemon src/main.js"
   },
   "keywords": [],
   "author": "",
@@ -17,9 +17,13 @@
     "koa-bodyparser": "^4.3.0",
     "koa-jwt": "^4.0.3",
     "koa-router": "^10.1.1",
-    "ramda": "^0.27.1"
+    "mysql2": "^2.3.3",
+    "ramda": "^0.27.1",
+    "sequelize": "^6.13.0",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
+    "dotenv": "^12.0.4",
     "mongoose": "^6.1.4",
     "nodemon": "^2.0.15"
   }

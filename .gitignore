@@ -11,10 +11,6 @@
 /dist
 /dll
 
-# dotenv
-.env
-.env.*.local
-
 # misc
 .DS_Store
 .idea
