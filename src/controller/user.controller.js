@@ -1,36 +1,34 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const bcrypt = require("bcrypt");
+// const jwt = require("jsonwebtoken");
 
-const UserModel = require("../models/User");
-const keys = require("../config/keys");
 const {createUser} = require('../services/user.services')
 
 
 class UserController {
     async login(ctx) {
-        const {email, password} = ctx.request.body
-
-        const res = await UserModel.findOne({
-            email
-        })
-        if (res) {
-            const passwordFromDB = res.password;
-            const compareRes = bcrypt.compareSync(password, passwordFromDB)
-            const token = `Bearer ${jwt.sign({email, password}, keys.secret)}`
-            console.log(compareRes);
-            if (compareRes) {
-                ctx.status = 200
-                ctx.body = {
-                    msg: "login successful",
-                    token
-                }
-            }
-        } else {
-            ctx.status = 500
-            ctx.body = {
-                msg: 'The username or password is incorrect'
-            }
-        }
+        // const {email, password} = ctx.request.body
+        //
+        // const res = await UserModel.findOne({
+        //     email
+        // })
+        // if (res) {
+        //     const passwordFromDB = res.password;
+        //     const compareRes = bcrypt.compareSync(password, passwordFromDB)
+        //     const token = `Bearer ${jwt.sign({email, password}, keys.secret)}`
+        //     console.log(compareRes);
+        //     if (compareRes) {
+        //         ctx.status = 200
+        //         ctx.body = {
+        //             msg: "login successful",
+        //             token
+        //         }
+        //     }
+        // } else {
+        //     ctx.status = 500
+        //     ctx.body = {
+        //         msg: 'The username or password is incorrect'
+        //     }
+        // }
     }
 
     async register(ctx) {
