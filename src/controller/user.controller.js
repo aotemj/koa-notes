@@ -40,15 +40,20 @@ class UserController {
                 password
             })
             if (res) {
+                const {email,name} = res
                 ctx.body = {
-                    code: 200,
+                    code: 0,
                     msg: 'register successful',
-                    data: res
+                    data: {
+                        email,
+                        name
+                    }
                 }
             } else {
                 ctx.body = {
                     code: 500,
-                    msg: 'email is already exist'
+                    msg: 'email is already exist',
+                    data: {}
                 }
             }
         } else {
