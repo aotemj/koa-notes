@@ -9,7 +9,7 @@ const User = seq.define("user", {
     },
     password: {
         type: DataTypes.CHAR(64),
-        allowNull: false,
+        // allowNull: false,
     },
     name: {
         type: DataTypes.STRING,

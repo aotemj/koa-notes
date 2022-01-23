@@ -1,7 +1,8 @@
 // const bcrypt = require("bcrypt");
 // const jwt = require("jsonwebtoken");
 
-const {createUser} = require('../services/user.services')
+const createResponse = require("../utils/response");
+const {createUser, getUserInfo} = require('../services/user.services')
 
 
 class UserController {
@@ -32,47 +33,34 @@ class UserController {
     }
 
     async register(ctx) {
-        const {email,name} = ctx.request.body
+        const {email, name} = ctx.request.body
+        if (await getUserInfo({email, name})) {
+            ctx.status = 409
+            ctx.body = createResponse('00002', 'user is already exist', {})
+            return
+        }
         const res = await createUser({
             email,
             name,
         })
         if (res) {
-            const {email,name} = res
-            ctx.body = {
-                code: 0,
-                msg: 'register successful',
-                data: {
-                    email,
-                    name
-                }
-            }
+            const {email, name} = res
+            ctx.body = createResponse('0', 'register successful', {
+                email, name
+            })
         } else {
-            ctx.body = {
-                code: 500,
-                msg: 'email is already exist',
-                data: {}
-            }
+            ctx.body = createResponse('00003', 'email is already exist')
         }
     }
 
     async infos(ctx) {
-        const {request: {header: {authorization}}} = ctx
-        // const veracity = jwt.verify(authorization.split(' ')[1], keys.secret)
-        console.log(ctx);
-        // const {email} = veracity
-        // const res = await User.findOne({
-        //     email
-        // })
-        ctx.body = {
-            code: 200,
-            msg: 'success',
-            data: ''
-        }
+
     }
 }
 
 
-const userController = new UserController()
+const
+    userController = new UserController()
 
-module.exports = userController
+module
+    .exports = userController
