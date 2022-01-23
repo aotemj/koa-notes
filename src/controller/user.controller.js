@@ -32,34 +32,26 @@ class UserController {
     }
 
     async register(ctx) {
-        const {email, name, password} = ctx.request.body
-        if (email) {
-            const res = await createUser({
-                email,
-                name,
-                password
-            })
-            if (res) {
-                const {email,name} = res
-                ctx.body = {
-                    code: 0,
-                    msg: 'register successful',
-                    data: {
-                        email,
-                        name
-                    }
-                }
-            } else {
-                ctx.body = {
-                    code: 500,
-                    msg: 'email is already exist',
-                    data: {}
+        const {email,name} = ctx.request.body
+        const res = await createUser({
+            email,
+            name,
+        })
+        if (res) {
+            const {email,name} = res
+            ctx.body = {
+                code: 0,
+                msg: 'register successful',
+                data: {
+                    email,
+                    name
                 }
             }
         } else {
-            ctx.status = 400;
             ctx.body = {
-                msg: 'email is required'
+                code: 500,
+                msg: 'email is already exist',
+                data: {}
             }
         }
     }

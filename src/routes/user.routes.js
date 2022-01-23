@@ -4,8 +4,9 @@ const router = new Router({
 });
 
 const {login, register, infos} = require('../controller/user.controller')
+const {userValidator} = require("../middleware/user.middleware");
 
-router.post('/register', register)
+router.post('/register', userValidator, register)
 
 router.post('/login', login)
 

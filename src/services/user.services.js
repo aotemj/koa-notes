@@ -1,13 +1,10 @@
 const User = require('../models/user.model')
+const {pick} = require('ramda')
 
 class UserServices {
     async createUser({email, password, name}) {
         console.log(email, password, name);
-        const res = await User.findOne({
-            where:{
-                email
-            }
-        })
+
         // if the user is not registered, it will be inserted to the user table
         if (!res) {
             return await User.create({
@@ -19,6 +16,20 @@ class UserServices {
             // if the user is existed, return false
             return false
         }
+    }
+
+    async getUserInfos({email, name, password, isAdmin}) {
+        let searchOpt = {
+            email,
+            name,
+            password,
+            isAdmin
+        }
+
+        const res = await User.findOne({
+            attributes: [],
+            where: searchOpt
+        })
     }
 }
 
