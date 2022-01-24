@@ -4,9 +4,9 @@ const router = new Router({
 });
 
 const {login, register, infos} = require('../controller/user.controller')
-const {userValidator} = require("../middleware/user.middleware");
+const {userValidator, userExistenceVerify} = require("../middleware/user.middleware");
 
-router.post('/register', userValidator, register)
+router.post('/register', userValidator, userExistenceVerify, register)
 
 router.post('/login', login)
 

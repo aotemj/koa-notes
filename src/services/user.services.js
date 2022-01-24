@@ -3,24 +3,25 @@ const R = require('ramda')
 
 class UserServices {
     async createUser({email, password, name}) {
-        await User.create({
+        const user =  await User.create({
             email,
             password,
-            name
+            name,
         })
+        console.log('user', user);
+        return user?.dataValues
     }
 
-    async getUserInfo({email, name, password, isAdmin}) {
+    async getUserInfo({email, name, password='', isAdmin=''}) {
         let searchOpt = {
             email,
             name,
             password,
             isAdmin
         }
-        console.log(searchOpt, R.pickBy((item) => !R.not(item), searchOpt));
         const res = await User.findOne({
-            attributes: ['email', 'name', 'password', 'isAdmin'],
-            where: R.pickBy((item) => !R.not(item) && item, searchOpt)
+            attributes: ['email', 'name'],
+            where: R.pickBy((item) => !R.not(item), searchOpt)
         })
         return res || null
     }
