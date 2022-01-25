@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
 const unprotectedRoutes = require("../config/unprotectedRoutes");
+const {HTTP_CODE} = require("../constants");
 
 function Auth(ctx, next) {
     const {request: {header: {authorization}}, url} = ctx
@@ -11,9 +12,9 @@ function Auth(ctx, next) {
         } else {
             let res = jwt.verify(authorization.split(' ')[1], keys.secret)
             if (res) {
-                ctx.state.infos = res
+                ctx.state.info = res
             } else {
-                ctx.throw(401, 'token error')
+                ctx.throw(HTTP_CODE.UN_AUTHORIZED, 'token error')
             }
             await next();
         }

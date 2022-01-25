@@ -1,16 +1,16 @@
 const Koa = require('koa');
 const Router = require('koa-router')
-const mongoose = require('mongoose')
-const koaJwt = require('koa-jwt');
-const jwt = require('jsonwebtoken')
-const keys = require('./config/keys')
+// const mongoose = require('mongoose')
+// const koaJwt = require('koa-jwt');
+// const jwt = require('jsonwebtoken')
+// const keys = require('./config/keys')
 const users = require('./routes/user.routes')
 const koaBody = require('koa-body')
-const unprotectedRoutes = require("./config/unprotectedRoutes");
+// const unprotectedRoutes = require("./config/unprotectedRoutes");
 
 // const Auth = require('./middleware/Auth')
 
-const router = new Router()
+const router = new Router();
 const app = new Koa();
 
 // app.use(Auth)
