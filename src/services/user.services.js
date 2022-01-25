@@ -1,37 +1,29 @@
-// const UserModel = require("../models/User");
-// const bcrypt = require("bcrypt");
 const User = require('../models/user.model')
-
-// const saltRounds = 10;
-
-// const salt = bcrypt.genSaltSync(saltRounds);
+const R = require('ramda')
 
 class UserServices {
     async createUser({email, password, name}) {
-        console.log(email, password, name);
-        const res = User.findOne({
-            email
+        const user = await User.create({
+            email,
+            password,
+            name,
         })
-        if (!res) {
-            const res = await User.create({
-                email,
-                password,
-                name
-            })
-            console.log(res);
-            return res
-            // const newUser = new UserModel({
-            //     name,
-            //     email,
-            //     password: bcrypt.hashSync(password, salt),
-            // })
-            // return await newUser.save()
-        } else {
-            return false
-        }
+        return user?.dataValues
     }
 
-    s
+    async getUserInfo({email, name, password = '', isAdmin = ''}) {
+        let searchOpt = {
+            email,
+            name,
+            password,
+            isAdmin
+        }
+        const res = await User.findOne({
+            attributes: ['email', 'name', 'password', 'isAdmin'],
+            where: R.pickBy((item) => !R.not(item), searchOpt)
+        })
+        return res?.dataValues || null
+    }
 }
 
 module.exports = new UserServices()

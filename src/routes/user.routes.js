@@ -3,12 +3,14 @@ const router = new Router({
     prefix: '/api/users'
 });
 
-const {login, register, infos} = require('../controller/user.controller')
+const {login, register, info} = require('../controller/user.controller')
 
-router.post('/register', register)
+const {userValidator, userExistenceVerify, cryptPassword} = require("../middleware/user.middleware");
+
+router.post('/register', userValidator, userExistenceVerify, cryptPassword, register)
 
 router.post('/login', login)
 
-router.get('/infos', infos)
+router.get('/info', info)
 
 module.exports = router.routes();

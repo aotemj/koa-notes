@@ -9,11 +9,7 @@ const {
 
 const seq = new Sequelize(MYSQL_DB, MYSQL_UNAME, MYSQL_PWD, {
     host: MYSQL_HOST,
-    dialect: 'mysql'
+    dialect: 'mysql',
 })
 
-seq.authenticate().then(res => {
-    console.log('database connected successful')
-}).catch(err => {
-    console.log('database connected failed :\n', err)
-})
+module.exports = seq
