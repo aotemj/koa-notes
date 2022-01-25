@@ -35,25 +35,31 @@ class UserController {
     async register(ctx) {
         const {email, name, password} = ctx.request.body
         console.log(email, name, password);
-        const res = await createUser({
-            email,
-            name,
-            password
-        })
-        if (res) {
-            const {email, name} = res
-            ctx.body = createResponse('00000', 'register successful', {
-                email, name
+        try {
+            const res = await createUser({
+                email,
+                name,
+                password
             })
-        } else {
-            ctx.body = createResponse('00003', 'email is already exist')
+
+            if (res) {
+                const {email, name} = res
+                ctx.body = createResponse('00000', 'register successful', {
+                    email, name
+                })
+            } else {
+                ctx.body = createResponse('00003', 'email is already exist')
+            }
+        } catch(e){
+            console.log('error: ->', e);
+            ctx.app.emit('error',ctx)
         }
     }
 
     async infos(ctx) {
         const {email,name,password} = ctx.request.query
         const res = await getUserInfo({email, name, password})
-        if (res) {
+        if (res) { 
             ctx.status = 200
             ctx.body = createResponse('00000', 'get info successful', res)
         } else {
