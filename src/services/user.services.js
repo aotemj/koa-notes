@@ -1,5 +1,6 @@
-const User = require('../models/user.model')
 const R = require('ramda')
+
+const User = require('../models/user.model')
 
 class UserServices {
     async createUser({email, password, name}) {
@@ -11,7 +12,7 @@ class UserServices {
         return user?.dataValues
     }
 
-    async getUserInfo({email, name, password = '', isAdmin = ''}) {
+    async getUserInfo({email, name = '', password = '', isAdmin = ''}) {
         let searchOpt = {
             email,
             name,

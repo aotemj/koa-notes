@@ -1,4 +1,5 @@
-const {Sequelize, DataTypes} = require('sequelize')
+const {DataTypes} = require('sequelize')
+
 const seq = require('../db/seq');
 
 const User = seq.define("user", {
@@ -8,21 +9,22 @@ const User = seq.define("user", {
         unique: true,
     },
     password: {
-        type: DataTypes.CHAR(64),
-        // allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false
     },
     isAdmin: {
         type: DataTypes.TINYINT,
-        defaultValue:0,
+        defaultValue: 0,
     }
-},{
+}, {
     // real table name
     modelName: 'users'
 })
+
 // if the table is not exist, the table will be created by default
 User.sync()
+
 module.exports = User
