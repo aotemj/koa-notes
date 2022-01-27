@@ -3,13 +3,13 @@ const { pick } = require('ramda')
 
 const createResponse = require('../utils/response')
 const { MSG_CODE, HTTP_CODE, ERRORS } = require('../constants')
-const { createUser, getUserInfo } = require('../services/user.services')
+const { createUser, getUserInfo, updatePassword } = require('../services/user.services')
 const { JSON_WEB_TOKEN_SECRET } = require('../config/config.default')
 
 class UserController {
   async login (ctx) {
     const userInfo = ctx.request.body
-    const token = jwt.sign(pick(['email', 'name', 'isAdmin'], userInfo), JSON_WEB_TOKEN_SECRET)
+    const token = jwt.sign(pick(['id', 'email', 'name', 'isAdmin'], userInfo), JSON_WEB_TOKEN_SECRET)
     ctx.body = createResponse(MSG_CODE.CODE0, 'login successful', {
       token
     })
@@ -42,6 +42,18 @@ class UserController {
       ctx.status = HTTP_CODE.NOT_FOUND
       ctx.body = ERRORS.USER_NOT_EXIST
     }
+  }
+
+  async updatePassword (ctx) {
+    const { id } = ctx.state.user
+    const { password: newPassword } = ctx.request.body
+    try {
+      const res = updatePassword({ id, newPassword })
+      console.log(res)
+    } catch (e) {
+      return ctx.app.emit('error', e)
+    }
+    ctx.body = '修改密码'
   }
 }
 
