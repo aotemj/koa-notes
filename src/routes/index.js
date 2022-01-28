@@ -11,4 +11,4 @@ filePaths.forEach(filePath => {
   }
 })
 
-module.exports = router.routes()
+module.exports = router

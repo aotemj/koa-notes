@@ -8,7 +8,8 @@ const app = new Koa()
 
 app.use(koaBody())
 
-app.use(router)
+app.use(router.routes())
+  .use(router.allowedMethods())
 
 app.on('error', (err, ctx) => showError(err))
 
