@@ -53,7 +53,8 @@ class UserController {
     } catch (e) {
       return ctx.app.emit('error', e)
     }
-    ctx.body = '修改密码'
+    ctx.status = HTTP_CODE.SUCCESS
+    ctx.body = createResponse(MSG_CODE.CODE0, 'update password successful')
   }
 }
 

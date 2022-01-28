@@ -15,6 +15,6 @@ router.post('/login', userValidator, verifyLogin, login)
 
 router.get('/info', info)
 
-router.patch('/password', auth, updatePassword)
+router.patch('/password', auth, cryptPassword, updatePassword)
 
 module.exports = router.routes()
