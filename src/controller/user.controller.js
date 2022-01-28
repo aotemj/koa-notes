@@ -48,10 +48,9 @@ class UserController {
     const { id } = ctx.state.user
     const { password: newPassword } = ctx.request.body
     try {
-      const res = updatePassword({ id, newPassword })
-      console.log(res)
+      await updatePassword({ id, newPassword })
     } catch (e) {
-      return ctx.app.emit('error', e)
+      return ctx.app.emit('error', e, ctx)
     }
     ctx.status = HTTP_CODE.SUCCESS
     ctx.body = createResponse(MSG_CODE.CODE0, 'update password successful')

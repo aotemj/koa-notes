@@ -1,16 +1,15 @@
 const Koa = require('koa')
-const Router = require('koa-router')
 const koaBody = require('koa-body')
+const { showError } = require('./utils/showLog')
 
-const users = require('./routes/user.routes')
+const router = require('./routes/index')
 
-const router = new Router()
 const app = new Koa()
 
 app.use(koaBody())
 
-router.use(users)
+app.use(router)
 
-app.use(router.routes())
+app.on('error', (err, ctx) => showError(err))
 
 module.exports = app
