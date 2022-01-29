@@ -20,10 +20,21 @@ class UserServices {
       isAdmin
     }
     const res = await User.findOne({
-      attributes: ['email', 'name', 'password', 'isAdmin'],
+      attributes: ['email', 'name', 'password', 'isAdmin', 'id'],
       where: R.pickBy((item) => !R.not(item), searchOpt)
     })
     return res?.dataValues || null
+  }
+
+  async updatePassword ({ id, newPassword }) {
+    const user = await User.findOne({
+      where: id
+    })
+
+    await user.update({
+      password: newPassword
+    })
+    await user.save()
   }
 }
 
