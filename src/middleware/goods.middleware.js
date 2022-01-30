@@ -12,6 +12,24 @@ const checkUploadedFileType = async (ctx, next) => {
   await next()
 }
 
+const validator = async (ctx, next) => {
+  const types = { string: { type: 'string' }, number: { type: 'number' } }
+  const requiredEnum = { required: { required: true }, notRequired: { required: false } }
+  try {
+    ctx.verifyParams({
+      goodsName: { ...types.string, ...requiredEnum.required },
+      goodsImg: { ...types.string, ...requiredEnum.required },
+      goodsCount: { ...types.number, ...requiredEnum.required },
+      goodsPrice: { ...types.number, ...requiredEnum.required }
+    })
+  } catch (e) {
+    ctx.app.emit('error', e, ctx)
+  }
+
+  await next()
+}
+
 module.exports = {
-  checkUploadedFileType
+  checkUploadedFileType,
+  validator
 }
