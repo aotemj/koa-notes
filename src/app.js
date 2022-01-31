@@ -2,6 +2,7 @@ const Koa = require('koa')
 const koaBody = require('koa-body')
 const path = require('path')
 const koaStatic = require('koa-static')
+const koaParameter = require('koa-parameter')
 
 const { showError } = require('./utils/showLog')
 
@@ -18,6 +19,7 @@ app.use(koaBody({
 }))
 
 app
+  .use(koaParameter(app))
   .use(koaStatic(path.join(__dirname, '../upload')))
   .use(router.routes())
   .use(router.allowedMethods())
