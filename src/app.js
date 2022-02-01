@@ -20,8 +20,11 @@ app.use(koaBody({
 
 app
   .use(koaParameter(app))
+  // static server
   .use(koaStatic(path.join(__dirname, '../upload')))
+  //  routers
   .use(router.routes())
+  //  method allowed
   .use(router.allowedMethods())
 
 app.on('error', (err, ctx) => showError(err))

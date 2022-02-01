@@ -35,7 +35,17 @@ const publish = async (ctx) => {
   }
 }
 
+const update = async (ctx) => {
+  const params = pick(['name', 'price', 'count', 'image'], ctx.request.body)
+
+  const goods = ctx.state.goodsInfo
+  const res = await goods.update(params)
+  await goods.save()
+  ctx.body = { ...GOODS_INFOS.GOODS_UPDATE_SUCCESSFUL, data: pick(['name', 'image', 'count', 'price'], res) }
+}
+
 module.exports = {
   upload,
-  publish
+  publish,
+  update
 }

@@ -8,7 +8,10 @@ const MSG_CODE = {
   CODE6: '00006',
   CODE7: '00007',
   CODE8: '00008',
-  CODE9: '00009'
+  CODE9: '00009',
+  CODE10: '00010',
+  CODE11: '00011',
+  CODE12: '00012'
 }
 
 const HTTP_CODE = {
