@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken')
 const { pick } = require('ramda')
 
 const createResponse = require('../utils/response')
-const { MSG_CODE, HTTP_CODE, ERRORS } = require('../constants')
+const { MSG_CODE, HTTP_CODE } = require('../constants')
+const { USER_ERRORS } = require('../constants/user')
 const { createUser, getUserInfo, updatePassword } = require('../services/user.services')
 const { JSON_WEB_TOKEN_SECRET } = require('../config/config.default')
 
@@ -28,7 +29,7 @@ class UserController {
         email, name
       })
     } else {
-      ctx.body = ERRORS.USER_ALREADY_EXIST
+      ctx.body = USER_ERRORS.USER_ALREADY_EXIST
     }
   }
 
@@ -40,7 +41,7 @@ class UserController {
       ctx.body = createResponse(MSG_CODE.CODE0, 'get info successful', res)
     } else {
       ctx.status = HTTP_CODE.NOT_FOUND
-      ctx.body = ERRORS.USER_NOT_EXIST
+      ctx.body = USER_ERRORS.USER_NOT_EXIST
     }
   }
 
