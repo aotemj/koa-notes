@@ -33,11 +33,15 @@ const resolvers = {
     foo: () => {
       return { id: '123123123' }
     },
-    article: (id) => {
-      console.log(id)
+    articles () {
+      return articles
+    },
+    // resolvers 的参数： parent, args, info
+    article: (_, { id }) => {
       return articles.filter(item => id === item.id)[0]
     }
   }
+
 }
 
 module.exports = {
