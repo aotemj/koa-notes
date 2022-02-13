@@ -17,7 +17,7 @@ async function startApolloServer ({ typeDefs, resolvers, app }) {
   server.applyMiddleware({ app })
   httpServer.on('request', app.callback())
   await new Promise(resolve => httpServer.listen({ port }, resolve))
-  showInfo(`🚀 Server ready at http://localhost:${port} ${server.graphqlPath}`)
+  showInfo(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
   return { server, app }
 }
 
