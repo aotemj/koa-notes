@@ -6,7 +6,7 @@ const GOODS_ERRORS = {
   GOODS_PUBLISH_VALIDATE_ERRORS: createResponse(MSG_CODE.CODE7, 'Goods publish params validate failed'),
   GOODS_CREATE_ERRORS: createResponse(MSG_CODE.CODE9, 'Goods create failed'),
   GOODS_UPDATE_ERROR: createResponse(MSG_CODE.CODE10, 'Goods update failed'),
-  GOODS_DO_NOT_EXIST: createResponse(MSG_CODE.CODE12, 'The Goods you wanted is not exist'),
+  GOODS_DO_NOT_EXIST: createResponse(MSG_CODE.CODE12, 'The Goods you wanted is not exist')
 }
 
 const GOODS_INFOS = {

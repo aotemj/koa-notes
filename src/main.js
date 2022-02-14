@@ -1,8 +1,5 @@
 const app = require('./app')
-const { showInfo } = require('./utils/showLog')
+const { startApolloServer } = require('./graphql')
+const { typeDefs, resolvers } = require('./graphql/schema')
 
-const { PORT } = require('./config/config.default')
-
-const port = PORT
-
-app.listen(port, () => showInfo(`Success: server is running at ${port}`))
+startApolloServer({ app, typeDefs, resolvers })
