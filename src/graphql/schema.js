@@ -33,8 +33,15 @@ const typeDefs = gql`
     title: String!
     body: String!
   }
+  
+  input UpdateArticleInput {
+    title: String!
+    body: String!
+  }
+  
   type Mutation {
     createArticle(article: CreateArticleInput):Article
+    updateArticle(id:ID!,article: UpdateArticleInput):Article
   }
 `
 const resolvers = {
@@ -54,12 +61,18 @@ const resolvers = {
   },
   Mutation: {
     createArticle (parent, { article }) {
-      console.log(parent, article)
       const id = uuidv4()
       articles.push({
         id,
         ...article
       })
+    },
+    updateArticle (_, { id, article }) {
+      const targetArticle = articles.filter(article => article.id === id)[0]
+      if (targetArticle) {
+        targetArticle.title = article.title
+        targetArticle.body = article.body
+      }
     }
   }
 }
