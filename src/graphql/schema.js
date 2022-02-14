@@ -42,7 +42,9 @@ const typeDefs = gql`
   type Mutation {
     createArticle(article: CreateArticleInput):Article
     updateArticle(id:ID!,article: UpdateArticleInput):Article
+    remoteArticle(id:ID!): Boolean
   }
+  
 `
 const resolvers = {
   Query: {
@@ -72,6 +74,15 @@ const resolvers = {
       if (targetArticle) {
         targetArticle.title = article.title
         targetArticle.body = article.body
+      }
+    },
+    remoteArticle (_, { id }) {
+      const index = articles.findIndex(article => article.id === id)
+      if (index !== -1) {
+        articles.splice(index, 1)
+        return true
+      } else {
+        return false
       }
     }
   }
