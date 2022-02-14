@@ -1,4 +1,7 @@
 const { gql } = require('apollo-server-koa')
+const { v4: uuidv4 } = require('uuid')
+
+// const {uu} = uuid
 
 const { books, articles } = require('./data')
 
@@ -25,6 +28,14 @@ const typeDefs = gql`
     articles: [Article]
     article(id:ID!): Article
   }
+  
+  input CreateArticleInput {
+    title: String!
+    body: String!
+  }
+  type Mutation {
+    createArticle(article: CreateArticleInput):Article
+  }
 `
 const resolvers = {
   Query: {
@@ -40,8 +51,17 @@ const resolvers = {
     article: (_, { id }) => {
       return articles.filter(item => id === item.id)[0]
     }
+  },
+  Mutation: {
+    createArticle (parent, { article }) {
+      console.log(parent, article)
+      const id = uuidv4()
+      articles.push({
+        id,
+        ...article
+      })
+    }
   }
-
 }
 
 module.exports = {
