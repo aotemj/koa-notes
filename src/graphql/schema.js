@@ -3,14 +3,9 @@ const { v4: uuidv4 } = require('uuid')
 
 // const {uu} = uuid
 
-const { books, articles } = require('./data')
+const { books, articles, libraries } = require('./data')
 
 const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
-  }
-
   type Foo {
     id: ID!
   }
@@ -21,12 +16,27 @@ const typeDefs = gql`
      body: String
   }
   
+  type Library {
+    branch: String!
+    books: [Book!]
+  }
+  
+  type Book {
+    title: String!
+    author: Author!
+  }
+  
+  type Author {
+    name: String!
+  }
+  
   type Query {
     books: [Book]
     userId: String
     foo: Foo!
     articles: [Article]
     article(id:ID!): Article
+    libraries: [Library]
   }
   
   input CreateArticleInput {
@@ -45,6 +55,8 @@ const typeDefs = gql`
     remoteArticle(id:ID!): Boolean
   }
   
+  
+  
 `
 const resolvers = {
   Query: {
@@ -59,6 +71,21 @@ const resolvers = {
     // resolvers 的参数： parent, args, info
     article: (_, { id }) => {
       return articles.filter(item => id === item.id)[0]
+    },
+    libraries: () => {
+      return libraries
+    }
+  },
+  Libraries: {
+    books: (parent) => {
+      return books.filter(book => book.branch === parent.branch)
+    }
+  },
+  Book: {
+    author: (parent) => {
+      return {
+        name: parent.author
+      }
     }
   },
   Mutation: {
