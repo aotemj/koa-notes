@@ -1,15 +1,17 @@
 const { ApolloServer } = require('apollo-server-koa')
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core')
+const http = require('http')
+
 const { PORT: port } = require('../config/config.default')
 const { showInfo } = require('../utils/showLog')
-
-const http = require('http')
+const context = require('./context')
 
 async function startApolloServer ({ typeDefs, resolvers, app }) {
   const httpServer = http.createServer()
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    context,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
   })
 

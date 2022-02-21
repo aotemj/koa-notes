@@ -77,7 +77,8 @@ const resolvers = {
     }
   },
   Library: {
-    books: (parent) => {
+    books: (parent, args, context) => {
+      console.log(context)
       return books.filter(book => book.branch === parent.branch)
     }
   },
