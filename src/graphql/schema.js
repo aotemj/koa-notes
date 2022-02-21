@@ -76,13 +76,13 @@ const resolvers = {
       return libraries
     }
   },
-  Libraries: {
+  Library: {
     books: (parent) => {
       return books.filter(book => book.branch === parent.branch)
     }
   },
   Book: {
-    author: (parent) => {
+    author (parent) {
       return {
         name: parent.author
       }
