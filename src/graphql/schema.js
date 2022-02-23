@@ -1,6 +1,8 @@
 const { gql } = require('apollo-server-koa')
 const { v4: uuidv4 } = require('uuid')
 
+const User = require('../models/user.model')
+
 // const {uu} = uuid
 
 const { books, articles, libraries } = require('./data')
@@ -37,6 +39,7 @@ const typeDefs = gql`
     articles: [Article]
     article(id:ID!): Article
     libraries: [Library]
+    users: [User]
   }
   
   input CreateArticleInput {
@@ -55,7 +58,13 @@ const typeDefs = gql`
     remoteArticle(id:ID!): Boolean
   }
   
-  
+
+  type User {
+    email: String!
+    password: String!
+    name: String
+    isAdmin: Int
+  }
   
 `
 const resolvers = {
@@ -74,6 +83,9 @@ const resolvers = {
     },
     libraries: () => {
       return libraries
+    },
+    users: () => {
+      return User.findAll()
     }
   },
   Library: {
