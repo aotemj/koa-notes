@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-koa')
+// const { gql } = require('apollo-server-koa')
 const { v4: uuidv4 } = require('uuid')
 
 const User = require('../models/user.model')
@@ -7,66 +7,57 @@ const User = require('../models/user.model')
 
 const { books, articles, libraries } = require('./data')
 
-const typeDefs = gql`
-  type Foo {
-    id: ID!
-  }
-
-  type Article {
-     id: ID
-     title: String
-     body: String
-  }
-  
-  type Library {
-    branch: String!
-    books: [Book!]
-  }
-  
-  type Book {
-    title: String!
-    author: Author!
-  }
-  
-  type Author {
-    name: String!
-  }
-  
-  type Query {
-    books: [Book]
-    userId: String
-    foo: Foo!
-    articles: [Article]
-    article(id:ID!): Article
-    libraries: [Library]
-    users: [User]
-  }
-  
-  input CreateArticleInput {
-    title: String!
-    body: String!
-  }
-  
-  input UpdateArticleInput {
-    title: String!
-    body: String!
-  }
-  
-  type Mutation {
-    createArticle(article: CreateArticleInput):Article
-    updateArticle(id:ID!,article: UpdateArticleInput):Article
-    remoteArticle(id:ID!): Boolean
-  }
-  
-
-  type User {
-    email: String!
-    password: String!
-    name: String
-    isAdmin: Int
-  }
-  
-`
+// const typeDefs = gql`
+//   type Foo {
+//     id: ID!
+//   }
+//
+//   type Article {
+//      id: ID
+//      title: String
+//      body: String
+//   }
+//
+//   type Library {
+//     branch: String!
+//     books: [Book!]
+//   }
+//
+//   type Book {
+//     title: String!
+//     author: Author!
+//   }
+//
+//   type Author {
+//     name: String!
+//   }
+//
+//   type Query {
+//     books: [Book]
+//     userId: String
+//     foo: Foo!
+//     articles: [Article]
+//     article(id:ID!): Article
+//     libraries: [Library]
+//     users: [User]
+//   }
+//
+//   input CreateArticleInput {
+//     title: String!
+//     body: String!
+//   }
+//
+//   input UpdateArticleInput {
+//     title: String!
+//     body: String!
+//   }
+//
+//   type Mutation {
+//     createArticle(article: CreateArticleInput):Article
+//     updateArticle(id:ID!,article: UpdateArticleInput):Article
+//     remoteArticle(id:ID!): Boolean
+//   }
+// `
 const resolvers = {
   Query: {
     books: () => books,
@@ -83,9 +74,6 @@ const resolvers = {
     },
     libraries: () => {
       return libraries
-    },
-    users: () => {
-      return User.findAll()
     }
   },
   Library: {
@@ -129,6 +117,6 @@ const resolvers = {
 }
 
 module.exports = {
-  resolvers,
-  typeDefs
+  resolvers
+  // typeDefs
 }
