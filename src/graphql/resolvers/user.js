@@ -1,15 +1,15 @@
-const User = require('../../models/user.model')
-const { createUser } = require('../../services/user.services')
-
+/**
+ * user resolvers
+ */
 const resolvers = {
   Query: {
-    users: () => User.findAll()
+    users: async (parent, { user }, { dataSources }) => {
+      return await dataSources.userAPI.getAllUsers()
+    }
   },
   Mutation: {
-    async register (parent, { user }) {
-      const res = await createUser(user)
-      // console.log(res)
-      return res
+    async register (parent, { user }, { dataSources }) {
+      return await dataSources.userAPI.createUser(user)
     }
   }
 }

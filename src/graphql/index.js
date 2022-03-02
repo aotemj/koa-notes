@@ -5,13 +5,15 @@ const http = require('http')
 const { PORT: port } = require('../config/config.default')
 const { showInfo } = require('../utils/showLog')
 const context = require('./context')
+const dataSources = require('./dataSources/index.js')
 
 async function startApolloServer ({ schema, app }) {
   const httpServer = http.createServer()
   const server = new ApolloServer({
     schema,
     context,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    dataSources
   })
 
   await server.start()
