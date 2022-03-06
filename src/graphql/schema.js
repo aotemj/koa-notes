@@ -1,8 +1,6 @@
 // const { gql } = require('apollo-server-koa')
 const { v4: uuidv4 } = require('uuid')
 
-const User = require('../models/user.model')
-
 // const {uu} = uuid
 
 const { books, articles, libraries } = require('./data')
@@ -77,8 +75,7 @@ const resolvers = {
     }
   },
   Library: {
-    books: (parent, args, context) => {
-      console.log(context)
+    books: (parent) => {
       return books.filter(book => book.branch === parent.branch)
     }
   },

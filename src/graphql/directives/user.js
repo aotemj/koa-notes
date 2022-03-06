@@ -1,20 +1,22 @@
 const { defaultFieldResolver } = require('graphql')
 const { MapperKind, getDirective, mapSchema } = require('@graphql-tools/utils')
-const directiveNames = require('./directiveName')
-const { userValidatorDirectiveTransformer } = require('./user')
 
-function upperDirectiveTransformer (schema, directiveName) {
+const { USER_ERRORS } = require('../../constants/user')
+
+// validate user input before register
+function userValidatorDirectiveTransformer (schema, directiveName) {
   return mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
       const upperDirective = getDirective(schema, fieldConfig, directiveName)?.[0]
       if (upperDirective) {
         const { resolve = defaultFieldResolver } = fieldConfig
         fieldConfig.resolve = async function (source, args, context, info) {
-          const result = await resolve(source, args, context, info)
-          if (typeof result === 'string') {
-            return result.toUpperCase()
+          const { user: { email, password } } = args
+          if (!email || !password) {
+            throw USER_ERRORS.USER_MISSING_REQUIRE_WORDS
           }
-          return result
+
+          return resolve(source, args, context, info)
         }
       }
     }
@@ -22,7 +24,5 @@ function upperDirectiveTransformer (schema, directiveName) {
 }
 
 module.exports = {
-  userValidatorDirectiveTransformer,
-  upperDirectiveTransformer,
-  directiveNames
+  userValidatorDirectiveTransformer
 }
