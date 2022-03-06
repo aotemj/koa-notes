@@ -1,7 +1,9 @@
+const { directiveNames } = require('../directives')
+
 const typeDef = `
    type User {
         id: ID!
-        email: String!
+        email: String! @${directiveNames.UPPER_CASE}
         password: String!
         name: String
         isAdmin: Int
@@ -25,4 +27,5 @@ const typeDef = `
         removeUser(id:ID!): Boolean
    }
 `
+
 module.exports = typeDef
