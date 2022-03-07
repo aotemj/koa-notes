@@ -3,7 +3,7 @@ const { MapperKind, getDirective, mapSchema } = require('@graphql-tools/utils')
 
 const { USER_ERRORS } = require('../../constants/user')
 
-// validate user input before register
+// validate user input before registering
 function userValidatorDirectiveTransformer (schema, directiveName) {
   return mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
@@ -23,6 +23,7 @@ function userValidatorDirectiveTransformer (schema, directiveName) {
   })
 }
 
+// check if the user exist before registering
 function userExistenceVerifyDirectiveTransformer (schema, directiveName) {
   return mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
