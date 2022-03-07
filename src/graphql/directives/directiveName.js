@@ -1,8 +1,8 @@
-const UPPER_CASE = 'upperCase'
 const USER_VALIDATOR = 'userValidator'
 const USER_EXISTENCE_VERIFY = 'userExistenceVerify'
+const CRYPT_PASSWORD = 'cryptPassword'
 module.exports = {
-  UPPER_CASE,
   USER_VALIDATOR,
-  USER_EXISTENCE_VERIFY
+  USER_EXISTENCE_VERIFY,
+  CRYPT_PASSWORD
 }
