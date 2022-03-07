@@ -1,6 +1,8 @@
 /**
  * user dataSources
  */
+const R = require('ramda')
+
 const User = require('../../models/user.model')
 
 class UserAPI {
@@ -15,6 +17,20 @@ class UserAPI {
 
   async getAllUsers () {
     return await User.findAll()
+  }
+
+  async getUserByParams (params) {
+    // const { email, name = '', password = '', isAdmin = '' } = params
+    // const searchOpt = {
+    //   email,
+    //   name,
+    //   password,
+    //   isAdmin
+    // }
+    return await User.findOne({
+      attributes: ['email', 'name', 'password', 'isAdmin', 'id'],
+      where: R.pickBy(item => !R.not(item), params)
+    })
   }
 }
 

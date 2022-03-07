@@ -1,7 +1,10 @@
 const { defaultFieldResolver } = require('graphql')
 const { MapperKind, getDirective, mapSchema } = require('@graphql-tools/utils')
 const directiveNames = require('./directiveName')
-const { userValidatorDirectiveTransformer } = require('./user')
+const {
+  userValidatorDirectiveTransformer,
+  userExistenceVerifyDirectiveTransformer
+} = require('./user')
 
 function upperDirectiveTransformer (schema, directiveName) {
   return mapSchema(schema, {
@@ -22,6 +25,7 @@ function upperDirectiveTransformer (schema, directiveName) {
 }
 
 module.exports = {
+  userExistenceVerifyDirectiveTransformer,
   userValidatorDirectiveTransformer,
   upperDirectiveTransformer,
   directiveNames

@@ -7,8 +7,8 @@ const { USER_ERRORS } = require('../../constants/user')
 function userValidatorDirectiveTransformer (schema, directiveName) {
   return mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
-      const upperDirective = getDirective(schema, fieldConfig, directiveName)?.[0]
-      if (upperDirective) {
+      const directive = getDirective(schema, fieldConfig, directiveName)?.[0]
+      if (directive) {
         const { resolve = defaultFieldResolver } = fieldConfig
         fieldConfig.resolve = async function (source, args, context, info) {
           const { user: { email, password } } = args
@@ -23,6 +23,30 @@ function userValidatorDirectiveTransformer (schema, directiveName) {
   })
 }
 
+function userExistenceVerifyDirectiveTransformer (schema, directiveName) {
+  return mapSchema(schema, {
+    [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
+      const directive = getDirective(schema, fieldConfig, directiveName)?.[0]
+      if (directive) {
+        const { resolve = defaultFieldResolver } = fieldConfig
+        fieldConfig.resolve = async function (source, args, context, info) {
+          const { user: { email, password } } = args
+          const { dataSources } = context
+
+          const res = await dataSources.userAPI.getUserByParams({ email, password })
+
+          if (res?.dataValues) {
+            throw USER_ERRORS.USER_ALREADY_EXIST
+          }
+
+          return resolve(source, args, context, info)
+        }
+      }
+    }
+  })
+}
+
 module.exports = {
-  userValidatorDirectiveTransformer
+  userValidatorDirectiveTransformer,
+  userExistenceVerifyDirectiveTransformer
 }
