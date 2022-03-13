@@ -1,7 +1,13 @@
+const { directiveNames } = require('../directives')
+const { USER_VALIDATOR, UPPER_CASE, USER_EXISTENCE_VERIFY, CRYPT_PASSWORD } = directiveNames
 const typeDef = `
+   directive @${USER_VALIDATOR} on FIELD_DEFINITION
+   directive @${USER_EXISTENCE_VERIFY} on FIELD_DEFINITION
+   directive @${CRYPT_PASSWORD} on FIELD_DEFINITION
+    
    type User {
         id: ID!
-        email: String!
+        email: String! @${UPPER_CASE}
         password: String!
         name: String
         isAdmin: Int
@@ -20,9 +26,10 @@ const typeDef = `
    }
       
    type Mutation {
-        register(user: NewUser): User
+        register(user: NewUser): User @${USER_VALIDATOR} @${USER_EXISTENCE_VERIFY} @${CRYPT_PASSWORD}
         updateUser(id:ID!): User
         removeUser(id:ID!): Boolean
    }
 `
+
 module.exports = typeDef
