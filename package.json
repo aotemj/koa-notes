@@ -37,6 +37,7 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
+    "graphql-middleware": "^6.1.17",
     "koa-parameter": "^3.0.1",
     "koa-static": "^5.0.0",
     "mongoose": "^6.1.4",
