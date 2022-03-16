@@ -1,9 +1,13 @@
-const REGISTER = 'register'
+// query
 const USERS = 'users'
 const USER = 'user'
+// mutation
+const REGISTER = 'register'
+const LOGIN = 'login'
 
 module.exports = {
-  REGISTER,
   USERS,
-  USER
+  USER,
+  REGISTER,
+  LOGIN
 }

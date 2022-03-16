@@ -1,3 +1,4 @@
+const { REGISTER, LOGIN, USER, USERS } = require('../constant/user')
 const typeDef = `
     
    type User {
@@ -9,8 +10,17 @@ const typeDef = `
    }
    
    type Query {
-        users: [User]
-        user(id: ID!):User
+        ${USERS}: [User]
+        ${USER}(id: ID!):User
+   }
+   
+   input LoginUser {
+        email: String!
+        password: String!
+   }
+   
+   type LoginRes {
+        token: String!
    }
    
    input NewUser {
@@ -19,11 +29,13 @@ const typeDef = `
         name: String
         isAdmin: Int
    }
+   
       
    type Mutation {
-        register(user: NewUser): User
+        ${REGISTER}(user: NewUser): User
         updateUser(id:ID!): User
         removeUser(id:ID!): Boolean
+        ${LOGIN}(user:LoginUser): LoginRes
    }
 `
 
