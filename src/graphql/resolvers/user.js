@@ -1,7 +1,7 @@
 /**
  * user resolvers
  */
-const { REGISTER, USERS, USER, LOGIN } = require('../constant/user')
+const { REGISTER, USERS, USER, LOGIN, UPDATE_PASSWORD } = require('../constant/user')
 const { SCHEMA_TYPES } = require('../constant/index')
 const { QUERY, MUTATION } = SCHEMA_TYPES
 const resolvers = {
@@ -19,6 +19,9 @@ const resolvers = {
     },
     async [LOGIN] (parent, { user }, { dataSources: { userAPI } }) {
       return await userAPI.login(user)
+    },
+    async [UPDATE_PASSWORD] (parent, { user: { password, id } }, { dataSources: { userAPI } }) {
+      return await userAPI.updatePassword(id, password)
     }
   }
 }

@@ -5,7 +5,7 @@ const app = require('./app')
 const { startApolloServer } = require('./graphql')
 const typeDefs = require('./graphql/schema/index.js')
 const resolvers = require('./graphql/resolvers/index.js')
-const { registerMiddleware, loginMiddleware } = require('./graphql/middleware/user')
+const { registerMiddleware, loginMiddleware, updatePasswordMiddleware } = require('./graphql/middleware/user')
 
 const schema = makeExecutableSchema({
   typeDefs,
@@ -15,7 +15,8 @@ const schema = makeExecutableSchema({
 const schemaWithMiddleware = applyMiddleware(
   schema,
   ...registerMiddleware,
-  ...loginMiddleware
+  ...loginMiddleware,
+  ...updatePasswordMiddleware
 )
 
 startApolloServer({ app, schema: schemaWithMiddleware })

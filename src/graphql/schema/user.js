@@ -1,4 +1,4 @@
-const { REGISTER, LOGIN, USER, USERS } = require('../constant/user')
+const { REGISTER, LOGIN, USER, USERS, UPDATE_PASSWORD } = require('../constant/user')
 const typeDef = `
     
    type User {
@@ -30,12 +30,18 @@ const typeDef = `
         isAdmin: Int
    }
    
+   input UpdatePasswordParams {
+        id: ID!
+        password:String!
+   }
+   
       
    type Mutation {
         ${REGISTER}(user: NewUser): User
         updateUser(id:ID!): User
         removeUser(id:ID!): Boolean
         ${LOGIN}(user:LoginUser): LoginRes
+        ${UPDATE_PASSWORD}(user: UpdatePasswordParams): Boolean
    }
 `
 
