@@ -28,7 +28,9 @@ class UserServices {
 
   async updatePassword ({ id, newPassword }) {
     const user = await User.findOne({
-      where: id
+      where: {
+        id
+      }
     })
 
     await user.update({

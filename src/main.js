@@ -1,24 +1,22 @@
 const { makeExecutableSchema } = require('@graphql-tools/schema')
+const { applyMiddleware } = require('graphql-middleware')
 
 const app = require('./app')
 const { startApolloServer } = require('./graphql')
 const typeDefs = require('./graphql/schema/index.js')
 const resolvers = require('./graphql/resolvers/index.js')
-const {
-  directiveNames,
-  userValidatorDirectiveTransformer,
-  userExistenceVerifyDirectiveTransformer,
-  cryptPasswordDirectiveTransformer
-} = require('./graphql/directives')
+const { registerMiddleware, loginMiddleware, updatePasswordMiddleware } = require('./graphql/middleware/user')
 
-// const {typeDefs, resolvers} = require('./graphql/schema')
-let schema = makeExecutableSchema({
+const schema = makeExecutableSchema({
   typeDefs,
   resolvers
 })
 
-schema = cryptPasswordDirectiveTransformer(schema, directiveNames.CRYPT_PASSWORD)
-schema = userExistenceVerifyDirectiveTransformer(schema, directiveNames.USER_EXISTENCE_VERIFY)
-schema = userValidatorDirectiveTransformer(schema, directiveNames.USER_VALIDATOR)
+const schemaWithMiddleware = applyMiddleware(
+  schema,
+  ...registerMiddleware,
+  ...loginMiddleware,
+  ...updatePasswordMiddleware
+)
 
-startApolloServer({ app, schema })
+startApolloServer({ app, schema: schemaWithMiddleware })

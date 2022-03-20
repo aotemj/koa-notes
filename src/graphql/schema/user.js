@@ -1,21 +1,26 @@
-const { directiveNames } = require('../directives')
-const { USER_VALIDATOR, UPPER_CASE, USER_EXISTENCE_VERIFY, CRYPT_PASSWORD } = directiveNames
+const { REGISTER, LOGIN, USER, USERS, UPDATE_PASSWORD } = require('../constant/user')
 const typeDef = `
-   directive @${USER_VALIDATOR} on FIELD_DEFINITION
-   directive @${USER_EXISTENCE_VERIFY} on FIELD_DEFINITION
-   directive @${CRYPT_PASSWORD} on FIELD_DEFINITION
     
    type User {
         id: ID!
-        email: String! @${UPPER_CASE}
+        email: String!
         password: String!
         name: String
         isAdmin: Int
    }
    
    type Query {
-        users: [User]
-        user(id: ID!):User
+        ${USERS}: [User]
+        ${USER}(id: ID!):User
+   }
+   
+   input LoginUser {
+        email: String!
+        password: String!
+   }
+   
+   type LoginRes {
+        token: String!
    }
    
    input NewUser {
@@ -24,11 +29,19 @@ const typeDef = `
         name: String
         isAdmin: Int
    }
+   
+   input UpdatePasswordParams {
+        id: ID!
+        password:String!
+   }
+   
       
    type Mutation {
-        register(user: NewUser): User @${USER_VALIDATOR} @${USER_EXISTENCE_VERIFY} @${CRYPT_PASSWORD}
+        ${REGISTER}(user: NewUser): User
         updateUser(id:ID!): User
         removeUser(id:ID!): Boolean
+        ${LOGIN}(user:LoginUser): LoginRes
+        ${UPDATE_PASSWORD}(user: UpdatePasswordParams): Boolean
    }
 `
 
