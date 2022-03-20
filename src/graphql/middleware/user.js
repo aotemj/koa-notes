@@ -1,17 +1,12 @@
 const crypt = require('bcryptjs')
+
+const { mapCallbackFn } = require('../../utils/mapCallbackFn')
 const { auth } = require('./auth')
 const { SCHEMA_TYPES } = require('../constant')
 const { REGISTER, LOGIN, UPDATE_PASSWORD } = require('../constant/user')
 
 const { showInfo } = require('../../utils/showLog')
 const { USER_ERRORS } = require('../../constants/user')
-const createMiddleware = (type, schema, middleware) => {
-  return {
-    [type]: {
-      [schema]: middleware
-    }
-  }
-}
 
 const userValidator = async (resolve, parent, args, context, info) => {
   const { user: { email, password } } = args
@@ -57,12 +52,11 @@ const verifyLogin = async (resolve, parent, args, context, info) => {
   return resolve(parent, { ...args, user: userInfo }, context, info)
 }
 
-const registerMiddleware = [userValidator, userExistenceVerify, cryptPassword].map(middleware => (
-  createMiddleware(SCHEMA_TYPES.MUTATION, REGISTER, middleware)))
+const registerMiddleware = [userValidator, userExistenceVerify, cryptPassword].map(mapCallbackFn(SCHEMA_TYPES.MUTATION, REGISTER))
 
-const loginMiddleware = [userValidator, verifyLogin].map(middleware => (createMiddleware(SCHEMA_TYPES.MUTATION, LOGIN, middleware)))
+const loginMiddleware = [userValidator, verifyLogin].map(mapCallbackFn(SCHEMA_TYPES.MUTATION, LOGIN))
 
-const updatePasswordMiddleware = [auth, cryptPassword].map(middleware => (createMiddleware(SCHEMA_TYPES.MUTATION, UPDATE_PASSWORD, middleware)))
+const updatePasswordMiddleware = [auth, cryptPassword].map(mapCallbackFn(SCHEMA_TYPES.MUTATION, UPDATE_PASSWORD))
 
 module.exports = {
   registerMiddleware,
